@@ -1,18 +1,18 @@
 ﻿namespace Ordering.Domain.ValueObjects;
 public record Payment
 {
-    public string? CartName { get; } = default!;   
-    public string CartNumber { get; } = default!;
+    public string? CardName { get; } = default!;   
+    public string CardNumber { get; } = default!;
     public string Expiration { get;  } = default!;
     public string CVV { get;  } = default!;
     public int PaymentMethod { get; } = default!;
 
     protected Payment() { }
 
-    private Payment(string cartName, string cartNumber, string expiration, string cvv, int paymentMethod)
+    private Payment(string cardName, string cardNumber, string expiration, string cvv, int paymentMethod)
     {
-        CartName = cartName;
-        CartNumber = cartNumber;
+        CardName = cardName;
+        CardNumber = cardNumber;
         Expiration = expiration;
         CVV = cvv;
         PaymentMethod = paymentMethod;

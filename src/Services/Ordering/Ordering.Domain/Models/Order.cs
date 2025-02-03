@@ -7,7 +7,7 @@ public class Order : Aggregate<OrderId>
     public CustomerId CustomerId { get; private set; } = default!;
     public OrderName OrderName { get; private set; } = default!;
     public Address ShippingAddress { get; private set; } = default!;
-    public Address BuildingAdress { get; private set; } = default!;
+    public Address BillingAddress { get; private set; } = default!;
     public Payment Payment { get; private set; } = default!;
     public OrderStatus Status { get; private set; } = OrderStatus.Pending;
 
@@ -17,7 +17,7 @@ public class Order : Aggregate<OrderId>
     }
 
 
-    public static Order Create(OrderId id,CustomerId customerId, OrderName orderName, Address shippingAddress, Address buildingAdress, Payment payment, List<OrderItem> orderItems)
+    public static Order Create(OrderId id,CustomerId customerId, OrderName orderName, Address shippingAddress, Address billingAddress, Payment payment)
     {
         var order = new Order()
         {
@@ -25,7 +25,7 @@ public class Order : Aggregate<OrderId>
             CustomerId = customerId,
             OrderName = orderName,
             ShippingAddress = shippingAddress,
-            BuildingAdress = buildingAdress,
+            BillingAddress = billingAddress,
             Payment = payment,
             Status=OrderStatus.Pending
         };
@@ -33,15 +33,15 @@ public class Order : Aggregate<OrderId>
         return order;
     }
 
-    public void Update (Order order, OrderName orderName, Address shippingAddress, Address buildingAdress, Payment payment, List<OrderItem> orderItems)
+    public void Update (OrderName orderName, Address shippingAddress, Address billingAddress, Payment payment,OrderStatus status)
     {
-        order.OrderName = orderName;
-        order.ShippingAddress = shippingAddress;
-        order.BuildingAdress = buildingAdress;
-        order.Payment = payment;
-        Status = Status;
+        OrderName = orderName;
+        ShippingAddress = shippingAddress;
+        BillingAddress = billingAddress;
+        Payment = payment;
+        Status = status;
 
-        order.AddDomainEvent(new OrderUpdatedEvent(order));
+        AddDomainEvent(new OrderUpdatedEvent(this));
     }
 
     public void Add(ProductId productId,int quantity, decimal price)
